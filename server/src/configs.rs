@@ -50,8 +50,8 @@ impl Config {
         slog::Logger::root(console_drain, o!("v" => env!("CARGO_PKG_VERSION")))
     }
 
-    pub async fn configure_mongo_client(url: String) -> Result<Client, MongoError> {
-        let mut client_options = ClientOptions::parse(url).await?;
-        Client::with_options(client_options)
+    pub async fn configure_mongo_client(url: String) -> ClientOptions {
+        let client_options = ClientOptions::parse(url).await.unwrap();
+        client_options
     }
 }
