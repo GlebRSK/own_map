@@ -1,33 +1,17 @@
-// psql -h 127.0.0.1 -p 5432 -U postgres postgres
-mod models;
 mod configs;
-mod handlers;
-mod db;
-mod utils;
 
-use crate::handlers::*;
+use crate::configs::Config;
 
-use actix_web::{HttpServer, App, web};
-use dotenv::dotenv;
-use tokio_postgres::NoTls;
-use deadpool_postgres::{Runtime};
+use dotenv::dotenv;  
 
 
-#[actix_rt::main]
-async fn main() -> std::io::Result<()> {
-    
+fn main() {
     dotenv().ok();
 
-    let config = crate::configs::Config::from_env().unwrap();
-    let pool = config.pg.create_pool(Some(Runtime::Tokio1), NoTls).unwrap();
+    let config = Config::from_env().unwrap();
+    let pool = config.configure_pool();
+    let log = Config::configure_log();
+    let mongo_client = Config::configure_mongo_client(format!("mongodb://{}:{}", config.mongo.host, config.mongo.port));
 
-    HttpServer::new(move || {
-        App::new()
-            .app_data(web::Data::new(pool.clone()))
-            .route("/", web::get().to(status))
-           
-    })
-    .bind(format!("{}:{}", config.server.host, config.server.port))?
-    .run()
-    .await
+    
 }

@@ -22,3 +22,11 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  mongo:
+    image: mongo:4.4
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: test
+    ports:
+      - 27017:27017
