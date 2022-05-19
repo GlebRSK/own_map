@@ -18,4 +18,4 @@ tokio-postgres = "0.7.6"
 slog = "2.7.0"
 slog-term = "2.9.0"
 slog-async = "2.7.0"
-mongodb = "2.2.1"
+mongodb = { version = "2.2.1", features = ["sync"], default-features = false}

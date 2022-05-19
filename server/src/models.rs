@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 use deadpool_postgres::Pool;
 use slog::Logger;
-//use mongodb::{options::ClientOptions};
+use mongodb::{sync::Client, error::Error as MongoError};
 
 /*
 The data structure that is passes on actix_web App
@@ -10,7 +10,7 @@ The data structure that is passes on actix_web App
 pub struct AppData {
     pub pool: Pool,
     pub log: Logger,
-   // mongo_client: ClientOptions,
+    pub mongo_client: Result<Client, MongoError>,
 }
 
 

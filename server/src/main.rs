@@ -28,7 +28,7 @@ async fn main() -> std::io::Result<()> {
                     AppData { // pass data in App
                         pool: pool.clone(),
                         log: log.clone(),
-                        //mongo_client: mongo_client.clone()
+                        mongo_client: mongo_client.clone()
                     }
                 )
             )
