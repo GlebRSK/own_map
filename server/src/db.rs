@@ -7,7 +7,7 @@ use tokio_pg_mapper::FromTokioPostgresRow;
 
 pub async fn get_locations(client: &Client) -> Result<Vec<GeoLocation>, AppError> {
     let statement = client
-        .prepare("select * from geo_location")
+        .prepare("select * from geo_locations")
         .await
         .map_err(AppError::db_error)?;
 
@@ -23,7 +23,7 @@ pub async fn get_locations(client: &Client) -> Result<Vec<GeoLocation>, AppError
 
 pub async fn insert_point(client: &Client, lat: f32, long: f32, tstmp: String, activity: String) -> Result<GeoLocation, AppError> {
     let statment = client
-        .prepare("insert into geo_locations (lat, long, timestamp, activity) values ($1,$2,$3,$4) returning id")
+        .prepare("insert into geo_locations (lat, long, timestamp, activity) values ($1,$2,$3,$4) returning id, lat, long, timestamp, activity")
         .await
         .map_err(AppError::db_error)?;
         
